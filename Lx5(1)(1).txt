@@ -1,0 +1,71 @@
+﻿C#企业级开发技术练习5答题卡
+
+班级：     19信息管理2班
+姓名：     何诗琴
+学号：     20190307207
+
+注：请将答案放置在序号下方。*/
+
+（一）
+    public class UserSys
+    {
+        public delegate void DLogin(object o, int n);
+        DLogin _elogin;
+        public event DLogin ELogin
+        {
+            add
+            { _elogin += value; }
+            remove
+            { _elogin -= value; }
+        }
+        int n = 0;
+        public void login()
+        {
+            _elogin(this, ++n+10000);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            UserSys user = new UserSys();
+            user.ELogin += (o, n) => Console.WriteLine($"{n}登录{o}成功");
+            user.login();
+            user.login();
+            user.login();
+        }
+    }
+}
+（二）
+            String str1 = "C#,java,python,golang,javascript,PHP,VB";
+            string[] str2 = str1.Split(',');
+            Array.Sort(str2, (a, b) => string.Compare(b.ToString(), a.ToString()));
+            string str3 = string.Join(",", str2);
+            Console.WriteLine(str3);
+
+（三）
+    public class MathSys
+    {
+        public delegate void DFilter(int[] num);
+        public event DFilter EFilter;
+        public void filter(int[] num)
+        {
+            EFilter(num);
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            MathSys math = new MathSys();
+            math.EFilter += num =>
+            {
+                int[] even = Array.FindAll(num, p => p % 2 == 0);
+                Console.WriteLine("数组中的偶数如下：");
+                foreach (int i in even)
+                    Console.WriteLine(i);
+            };
+            math.filter(new[] { 10, 8, 7, 21, 24 });
+        }
+    }
+}
